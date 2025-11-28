@@ -1,28 +1,31 @@
-// custom-third-button.js
-document.addEventListener("DOMContentLoaded", () => {
-    // Find the accelerated checkout container
+// Wait for Shopify sections & AJAX to render
+function appendThirdButton() {
     const container = document.querySelector(".accelerated-checkout-block");
     if (!container) return;
   
     // Prevent duplicates
     if (container.querySelector(".custom-third-button")) return;
   
-    // Create the button
     const button = document.createElement("button");
     button.className = "custom-third-button";
     button.textContent = "Special Button";
   
-    // Optional: get product ID from data attribute
     const productId = container.dataset.productId || null;
   
     button.addEventListener("click", () => {
       console.log("Third button clicked!", productId);
       alert("Special Button Clicked!");
-      // Optional: call API or redirect
-      // window.location.href = '/collections/all';
+      // Example: call your API or redirect
+      // fetch(`https://your-api.com/action?product_id=${productId}`);
     });
   
-    // Append the button
     container.appendChild(button);
-  });
+  }
+  
+  // Use DOMContentLoaded + Shopify's section:load events
+  document.addEventListener("DOMContentLoaded", appendThirdButton);
+  document.addEventListener("shopify:section:load", appendThirdButton);
+  document.addEventListener("shopify:section:reorder", appendThirdButton);
+  document.addEventListener("shopify:section:select", appendThirdButton);
+  document.addEventListener("shopify:section:deselect", appendThirdButton);
   
