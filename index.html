@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button
+    id="custom-third-button"
+    class="button button-tertiary custom-third-button"
+    type="button"
+    style="display:none;"
+  >
+    Special Button
+  </button>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const button = document.getElementById("custom-third-button");
+      if (!button) return;
+
+      // Fallback: always show if API fails
+      button.style.display = 'inline-block';
+
+      // Replace with your real API endpoint
+      const apiUrl = "https://your-valid-api.com/check-condition?product_id={{ product.id }}";
+
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          if (data.showButton) {
+            button.style.display = 'inline-block';
+          } else {
+            button.style.display = 'none';
+          }
+        })
+        .catch(err => {
+          console.error("API error:", err);
+          // Optional: keep button visible if API fails
+          button.style.display = 'inline-block';
+        });
+
+      button.addEventListener("click", function () {
+        console.log("Third button clicked!");
+        alert("Special Button Clicked!");
+        // Optional: redirect or open modal
+        // window.location.href = '/collections/all';
+      });
+    });
+  </script>
+</body>
+</html>
